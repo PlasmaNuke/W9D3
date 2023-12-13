@@ -4,7 +4,8 @@ export default class FollowToggle {
   constructor(toggleButton) {
     // Your code here
     this.toggleButton = toggleButton
-    document.addEventListener('click', this.handleClick.bind(this))
+    this.toggleButton.addEventListener('click', this.handleClick.bind(this))
+
   }
 
   async handleClick(event) {
@@ -18,16 +19,37 @@ export default class FollowToggle {
   }
 
   async follow() {
-    // Your code here
+    this.followState = "following"
+    await API.followUser(this.toggleButton.dataset.userId)
+    this.followState = "followed"
   }
 
   async unfollow() {
-    // Your code here
+    this.followState = "unfollowing"
+    await API.unfollowUser(this.toggleButton.dataset.userId)
+    this.followState = "unfollowed"
+
   }
 
   render() {
+    debugger
     switch (this.followState) {
-      // Your code here
+      case "followed":
+        this.toggleButton.removeAttribute("disabled");
+        this.toggleButton.innerText = "Unfollow!";
+        break;
+      case "unfollowed":
+        this.toggleButton.removeAttribute("disabled");
+        this.toggleButton.innerText = "Follow!";
+        break;
+      case "following":
+        this.toggleButton.disabled = true;
+        this.toggleButton.innerText = "Following...";
+        break;
+      case "unfollowing":
+        this.toggleButton.disabled = true;
+        this.toggleButton.innerText = "Unfollowing...";
+        break;
     }
   }
 
