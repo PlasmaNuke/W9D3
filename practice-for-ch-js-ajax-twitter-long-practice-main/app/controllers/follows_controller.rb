@@ -7,8 +7,13 @@ class FollowsController < ApplicationController
 
     follow = current_user.out_follows.create!(following_id: params[:user_id])
 
+    # respond_to do |format|
+    #   format.html { redirect_to request.referrer }
+    # end
+
     respond_to do |format|
-      format.html { redirect_to request.referrer }
+    # ...html response
+      format.json { render json: current_user.slice(:id, :username) }
     end
   end
 
@@ -19,12 +24,17 @@ class FollowsController < ApplicationController
     follow = current_user.out_follows.find_by(following_id: params[:user_id])
     follow.destroy!
 
+    # respond_to do |format|
+    #   # Set redirect status to `:see_other` (303) to force a `GET` request.
+    #   # Otherwise, some browsers will keep the method of the redirect as
+    #   # `DELETE`.
+    #   # See https://api.rubyonrails.org/classes/ActionController/Redirecting.html#method-i-redirect_to
+    #   format.html { redirect_to request.referrer, status: :see_other }
+    # end
+
     respond_to do |format|
-      # Set redirect status to `:see_other` (303) to force a `GET` request. 
-      # Otherwise, some browsers will keep the method of the redirect as 
-      # `DELETE`.
-      # See https://api.rubyonrails.org/classes/ActionController/Redirecting.html#method-i-redirect_to
-      format.html { redirect_to request.referrer, status: :see_other }
+    # ...html response
+      format.json { render json: current_user.slice(:id) }
     end
   end
 end
