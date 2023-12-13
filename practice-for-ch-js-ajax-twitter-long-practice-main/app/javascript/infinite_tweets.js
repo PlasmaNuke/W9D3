@@ -3,6 +3,7 @@ import { API } from "./util";
 export default class InfiniteTweets {
   constructor(rootEl) {
     // Your code here
+    
   }
 
   async handleFetchTweets(event) {

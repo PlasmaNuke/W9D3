@@ -9,8 +9,11 @@ class TweetsController < ApplicationController
   def index
     # simulate latency
     sleep(1)
-    
+
+
     # Your code here
+    @tweets = current_user.page_of_tweets(type: params[:type], offset: 10)
+    render :index
   end
 
   def create
@@ -26,9 +29,9 @@ class TweetsController < ApplicationController
     else
       errors = @tweet.errors.full_messages
       respond_to do |format|
-        format.html do 
+        format.html do
           flash[:errors] = errors
-          redirect_to request.referrer 
+          redirect_to request.referrer
         end
         # Your code here
       end
@@ -36,7 +39,7 @@ class TweetsController < ApplicationController
   end
 
   private
-  
+
   def tweet_params
     params.require(:tweet).permit(:body, :mentioned_user_id)
   end

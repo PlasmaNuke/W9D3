@@ -26,3 +26,8 @@ export function followUser(id) {
 export function unfollowUser(id) {
   return customFetch(`/users/${id}/follow`, { method: "DELETE" })
 }
+
+export function fetchTweets(options = {}) {
+  let queryParams = new URLSearchParams(options).toString()
+  return customFetch("/tweets?" + queryParams, options)
+}
